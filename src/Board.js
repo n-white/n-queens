@@ -128,7 +128,7 @@
           conflictCount += fullMatrix[j][i];          
         }
         if (conflictCount > 1) {
-            return true;
+          return true;
         } else {
           conflictCount = 0;
         }
@@ -165,7 +165,6 @@
       var fullMatrix = this.rows();
       var conflictCount = 0;
       
-      // CHECK FOR CONFLICTS DIAGONALLY TO THE RIGHT
       for (var rowStart = 0; rowStart < fullMatrix.length; rowStart++) {    
         for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
           for (var i = rowStart, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
@@ -214,7 +213,6 @@
       var fullMatrix = this.rows();
       var conflictCount = 0;
       
-      // CHECK FOR CONFLICTS DIAGONALLY TO THE RIGHT
       for (var rowStart = 0; rowStart < fullMatrix.length; rowStart++) {    
         for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
           for (var i = rowStart, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
