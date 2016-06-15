@@ -156,19 +156,6 @@
         return true;
       }
 
-      // conflictCount = 0;
-
-      // for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
-      //   if (j >= 0) {
-      //     conflictCount += fullMatrix[i][j];
-      //     j--;
-      //   }
-      // }
-
-      // if (conflictCount > 1) {
-      //   return true;
-      // }
-      
       return false;           
 
     },
@@ -195,21 +182,6 @@
         }
       }
 
-      // // CHECK FOR CONFLICTS DIAGONALLY TO THE LEFT
-      // for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
-      //   for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
-      //     if (j >= 0) {
-      //       conflictCount += fullMatrix[i][j];
-      //       j--;
-      //     }
-      //   }
-      //   if (conflictCount > 1) {
-      //     return true;
-      //   } else {
-      //     conflictCount = 0;
-      //   }
-      // }
-
       return false;
 
     },
@@ -221,12 +193,46 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var fullMatrix = this.rows();
+      var conflictCount = 0;
+      for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+        if (j >= 0) {
+          conflictCount += fullMatrix[i][j];
+          j--;
+        }
+      }
+
+      if (conflictCount > 1) {
+        return true;
+      }
+            
+      return false;            
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var fullMatrix = this.rows();
+      var conflictCount = 0;
+      
+      // CHECK FOR CONFLICTS DIAGONALLY TO THE RIGHT
+      for (var rowStart = 0; rowStart < fullMatrix.length; rowStart++) {    
+        for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
+          for (var i = rowStart, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+            if (j >= 0) {
+              conflictCount += fullMatrix[i][j];
+              j--;
+            }
+          }
+          if (conflictCount > 1) {
+            return true;
+          } else {
+            conflictCount = 0;
+          }
+        }
+      }
+
+      return false;
+
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
