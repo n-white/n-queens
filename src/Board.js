@@ -152,7 +152,24 @@
         }
       }
 
-      return conflictCount > 1 ? true : false;
+      if (conflictCount > 1) {
+        return true;
+      }
+
+      // conflictCount = 0;
+
+      // for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+      //   if (j >= 0) {
+      //     conflictCount += fullMatrix[i][j];
+      //     j--;
+      //   }
+      // }
+
+      // if (conflictCount > 1) {
+      //   return true;
+      // }
+      
+      return false;           
 
     },
 
@@ -160,6 +177,8 @@
     hasAnyMajorDiagonalConflicts: function() {
       var fullMatrix = this.rows();
       var conflictCount = 0;
+      
+      // CHECK FOR CONFLICTS DIAGONALLY TO THE RIGHT
       for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
         for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
           if (j < fullMatrix.length) {
@@ -173,6 +192,22 @@
           conflictCount = 0;
         }
       }
+
+      // // CHECK FOR CONFLICTS DIAGONALLY TO THE LEFT
+      // for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
+      //   for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+      //     if (j >= 0) {
+      //       conflictCount += fullMatrix[i][j];
+      //       j--;
+      //     }
+      //   }
+      //   if (conflictCount > 1) {
+      //     return true;
+      //   } else {
+      //     conflictCount = 0;
+      //   }
+      // }
+
       return false;
 
     },
