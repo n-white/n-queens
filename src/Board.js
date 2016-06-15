@@ -143,12 +143,38 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var fullMatrix = this.rows();
+      var conflictCount = 0;
+      for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+        if (j < fullMatrix.length) {
+          conflictCount += fullMatrix[i][j];
+          j++;
+        }
+      }
+
+      return conflictCount > 1 ? true : false;
+
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var fullMatrix = this.rows();
+      var conflictCount = 0;
+      for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
+        for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+          if (j < fullMatrix.length) {
+            conflictCount += fullMatrix[i][j];
+            j++;
+          }
+        }
+        if (conflictCount > 1) {
+          return true;
+        } else {
+          conflictCount = 0;
+        }
+      }
+      return false;
+
     },
 
 
