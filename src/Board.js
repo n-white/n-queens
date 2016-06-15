@@ -179,17 +179,19 @@
       var conflictCount = 0;
       
       // CHECK FOR CONFLICTS DIAGONALLY TO THE RIGHT
-      for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
-        for (var i = 0, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
-          if (j < fullMatrix.length) {
-            conflictCount += fullMatrix[i][j];
-            j++;
+      for (var rowStart = 0; rowStart < fullMatrix.length; rowStart++) {    
+        for (var majorDiagonalColumnIndexAtFirstRow = 0; majorDiagonalColumnIndexAtFirstRow < fullMatrix.length; majorDiagonalColumnIndexAtFirstRow++) {
+          for (var i = rowStart, j = majorDiagonalColumnIndexAtFirstRow; i < fullMatrix.length; i++) {
+            if (j < fullMatrix.length) {
+              conflictCount += fullMatrix[i][j];
+              j++;
+            }
           }
-        }
-        if (conflictCount > 1) {
-          return true;
-        } else {
-          conflictCount = 0;
+          if (conflictCount > 1) {
+            return true;
+          } else {
+            conflictCount = 0;
+          }
         }
       }
 
