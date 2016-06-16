@@ -43,12 +43,15 @@ var matrixBoard = new Board({'n': n});
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n, currentX, currentY, currentBoard) {
-  // debugger
+  // debugger;
   var solutionCount = 0;
   var board = currentBoard || new Board({'n': n});
+  var currentX = currentX || 0;
+  var currentY = currentY || 0;
   var spotFound = false;
 
   if ( n === 0 ) {
+    console.log(board.rows());
     return 1;
   }
 
@@ -58,13 +61,18 @@ window.countNRooksSolutions = function(n, currentX, currentY, currentBoard) {
     for (var x = currentX; x < board.rows().length; x++) {
       // if no conflicts at x, y: adjust matrix[y][x] == 1
       board.rows()[y][x] = 1;
-
+      debugger;
       if (board.hasAnyRowConflicts() || board.hasAnyColConflicts()) {
         board.rows()[y][x] = 0;
       } else {
         spotFound = true;
-        currentY = y;
-        currentX = x;
+        if (currentX < 2) {
+          currentY = y;
+          currentX = x + 1;
+        } else {
+          currentY = y + 1;
+          currentX = 0;
+        }
       }
 
       if(spotFound) {
@@ -78,7 +86,7 @@ window.countNRooksSolutions = function(n, currentX, currentY, currentBoard) {
     currentX = 0;
   }
 
-  console.log(board.rows());
+
 
   // determine next placement of a rook given the current x and y
   for (var i = 0; i < n; i++) {
