@@ -42,59 +42,85 @@ var matrixBoard = new Board({'n': n});
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function(n, currentX, currentY, currentBoard) {
+window.countNRooksSolutions = function(n, currentBoard) {
   // debugger;
+  var cache = cache || [[0,0]];
+  var cacheBoard = cacheBoard || [];
   var solutionCount = 0;
-  var board = currentBoard || new Board({'n': n});
-  var currentX = currentX || 0;
-  var currentY = currentY || 0;
-  var spotFound = false;
 
-  if ( n === 0 ) {
-    console.log(board.rows());
-    return 1;
-  }
+  var helper = function(n, currentBoard) {
+    // debugger;
+    var board = currentBoard || new Board({'n': n});
+    var currentX = cache[cache.length - 1][0];
+    var currentY = cache[cache.length - 1][1];
+    var spotFound = false;
 
-  // Use this for loop to find the next possible spot without conflicts
-  for (var y = currentY; y < board.rows().length; y++) {
-    //witin rows, iterate through columns (x)
-    for (var x = currentX; x < board.rows().length; x++) {
-      // if no conflicts at x, y: adjust matrix[y][x] == 1
-      board.rows()[y][x] = 1;
-      debugger;
-      if (board.hasAnyRowConflicts() || board.hasAnyColConflicts()) {
-        board.rows()[y][x] = 0;
-      } else {
-        spotFound = true;
-        if (currentX < 2) {
-          currentY = y;
-          currentX = x + 1;
+    if ( n === 0 ) {
+      cache.pop();
+      // board = cacheBoard[1];
+      console.log(board.rows());
+      return 1;
+    }
+
+    // Use this for loop to find the next possible spot without conflicts
+    for (currentY; currentY < board.rows().length; currentY) {
+      //witin rows, iterate through columns (x)
+      for (currentX; currentX < board.rows().length; currentX) {
+        // if no conflicts at x, y: adjust matrix[y][x] == 1
+        board.rows()[currentY][currentX] = 1;
+        if (board.hasAnyRowConflicts() || board.hasAnyColConflicts()) {
+          board.rows()[currentY][currentX] = 0;
+          if (currentX < 2) {
+            currentY = currentY;
+            currentX = currentX + 1;
+          } else {
+            currentY = currentY + 1;
+            currentX = 0;
+          }
         } else {
-          currentY = y + 1;
-          currentX = 0;
+          spotFound = true;
+          if (currentX < 2) {
+            currentY = currentY;
+            currentX = currentX + 1;
+          } else {
+            currentY = currentY + 1;
+            currentX = 0;
+          }      
         }
-      }
 
-      if(spotFound) {
+        if (spotFound) {
+          break;
+        }
+
+      }
+      if (spotFound) {
         break;
       }
-
     }
-    if(spotFound) {
-      break;
+
+    cache.push([currentX, currentY]);
+    cacheBoard.push(board);
+    // if (currentX < 2) {
+      // currentY = cache[cache.length - 1][1] || y;
+      // currentX = cache[cache.length - 1][0] + 1 || x + 1;
+    // } else {
+    //   currentY = cache[cache.length - 1][1] + 1 || y + 1;
+    //   currentX = cache[cache.length - 1][0] || x;
+    // }
+
+
+    // determine next placement of a rook given the current x and y
+    for (var i = 0; i < n; i++) {
+      helper(n-1, board);
     }
-    currentX = 0;
-  }
 
 
+  };
 
-  // determine next placement of a rook given the current x and y
-  for (var i = 0; i < n; i++) {
-    solutionCount += countNRooksSolutions(n-1, currentX, currentY, board);
-  }
-
+  helper(n);
 
   return solutionCount;
+  
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
